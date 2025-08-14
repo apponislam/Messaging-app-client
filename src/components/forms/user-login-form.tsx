@@ -42,7 +42,7 @@ export function LoginForm() {
             dispatch(
                 setUser({
                     user: response.data.user,
-                    token: response.data.token,
+                    token: response.data.accessToken,
                 })
             );
 

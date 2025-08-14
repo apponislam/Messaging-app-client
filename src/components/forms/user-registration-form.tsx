@@ -103,7 +103,7 @@ export function RegistrationForm() {
             dispatch(
                 setUser({
                     user: response.data.user,
-                    token: response.data.token,
+                    token: response.data.accessToken,
                 })
             );
             toast.success("Account created!", {
