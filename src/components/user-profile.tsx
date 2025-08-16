@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetMyProfileQuery } from "@/redux/features/user/userApi";
+import Link from "next/link";
 
 export function UserDropdown() {
     const { data: apiResponse, isLoading, isError } = useGetMyProfileQuery({});
@@ -38,7 +39,7 @@ export function UserDropdown() {
     if (isError || !user) {
         return (
             <Button variant="outline" asChild>
-                <a href="/login">Login</a>
+                <Link href="/">Login</Link>
             </Button>
         );
     }

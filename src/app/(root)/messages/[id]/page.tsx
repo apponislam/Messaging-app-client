@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, MoreVertical, Send } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
-import { useGetMyProfileQuery } from "@/redux/features/user/userApi";
+import { useGetMyProfileQuery, useGetUserByIdQuery } from "@/redux/features/user/userApi";
 import { useGetMessagesWithUserQuery, useSendMessageMutation } from "@/redux/features/message/messageApi";
 import { connectSocket, disconnectSocket, socket } from "@/app/socket/socket";
 import { getAuthToken } from "@/app/utils/auth";
@@ -57,7 +57,7 @@ export default function MessagePage({ params }: { params: Promise<{ id: string }
         const token = getAuthToken();
 
         const handleConnect = () => {
-            console.log("Socket connected!");
+            // console.log("Socket connected!");
         };
 
         const handleConnectError = (err: Error) => {
@@ -90,9 +90,11 @@ export default function MessagePage({ params }: { params: Promise<{ id: string }
         };
 
         socket.on("newMessage", handleNewMessage);
+        // socket.on("newNotification", handleNewMessage);
 
         return () => {
             socket.off("newMessage", handleNewMessage);
+            // socket.off("newNotification", handleNewMessage);
         };
     }, [id, refetch]);
 
@@ -101,7 +103,7 @@ export default function MessagePage({ params }: { params: Promise<{ id: string }
     // const token = getAuthToken();
     // console.log(token);
 
-    console.log("socket connected", socket.connected);
+    // console.log("socket connected", socket.connected);
 
     // 4. Combine API and live messages (no duplicates)
     const allMessages = [...apiMessages, ...liveMessages.filter((liveMsg) => !apiMessages.some((apiMsg) => apiMsg._id === liveMsg._id))];
@@ -144,7 +146,15 @@ export default function MessagePage({ params }: { params: Promise<{ id: string }
         }
     }, [messages, isInitialLoad]);
 
-    const otherUser = apiMessages[0]?.sender._id === currentUserId ? apiMessages[0]?.receiver : apiMessages[0]?.sender;
+    // console.log(messages);
+
+    // Get other user data
+    const { data: otherUserResponse } = useGetUserByIdQuery(id, {
+        skip: !id, // Skip if no conversation ID
+    });
+
+    // Determine the other user
+    const otherUser = otherUserResponse?.data || (apiMessages[0]?.sender._id === currentUserId ? apiMessages[0]?.receiver : apiMessages[0]?.sender);
 
     if (isLoading) return <div className="flex-1 flex items-center justify-center">Loading...</div>;
     if (isError) return <div className="flex-1 flex items-center justify-center">Error loading messages</div>;
@@ -161,7 +171,7 @@ export default function MessagePage({ params }: { params: Promise<{ id: string }
                         <AvatarFallback>
                             {otherUser?.name
                                 ?.split(" ")
-                                .map((n) => n[0])
+                                .map((n: string) => n[0])
                                 .join("")}
                         </AvatarFallback>
                     </Avatar>

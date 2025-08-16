@@ -1,8 +1,9 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { ModeToggle } from "@/components/darkModeToggle";
+import { NotificationBell } from "@/components/notificationCounter";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { UserDropdown } from "@/components/user-profile";
-import { Bell } from "lucide-react";
+// import { Bell } from "lucide-react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -15,7 +16,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         <h1 className="text-xl font-m-300 italic">Messaging App</h1>
                     </div>
                     <div className="flex items-center gap-4">
-                        <Bell />
+                        {/* <Bell /> */}
+                        <NotificationBell></NotificationBell>
                         <ModeToggle></ModeToggle>
                         <UserDropdown></UserDropdown>
                     </div>
