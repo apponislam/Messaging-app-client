@@ -61,7 +61,7 @@ export default function MessagePage({ params }: { params: Promise<{ id: string }
         };
 
         const handleConnectError = (err: Error) => {
-            console.error("Socket connection error:", err.message);
+            console.log("Socket connection error:", err.message);
         };
 
         if (token) {
