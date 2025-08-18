@@ -1,4 +1,12 @@
 import { baseApi } from "../../api/baseApi";
+import { TUser } from "./authSlice";
+
+type RefreshTokenResponse = {
+    data: {
+        accessToken: string;
+        user: TUser;
+    };
+};
 
 const authApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -16,7 +24,14 @@ const authApi = baseApi.injectEndpoints({
                 body: userInfo,
             }),
         }),
+        refreshToken: builder.mutation<RefreshTokenResponse, void>({
+            query: () => ({
+                url: "/auth/refresh-token",
+                method: "POST",
+                credentials: "include",
+            }),
+        }),
     }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useRefreshTokenMutation } = authApi;

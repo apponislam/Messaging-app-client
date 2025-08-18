@@ -134,7 +134,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
     let result = await baseQuery(args, api, extraOptions);
 
     if (result?.error?.status === 401) {
-        console.log("Attempting token refresh...");
+        // console.log("Attempting token refresh...");
 
         const refreshResult = await baseQuery(
             {
@@ -146,15 +146,15 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
             extraOptions
         );
 
-        console.log("Refresh result:", refreshResult.data);
+        // console.log("Refresh result:", refreshResult.data);
 
         // Type-safe check for nested data structure
         if (refreshResult.data && typeof refreshResult.data === "object" && "data" in refreshResult.data && refreshResult.data.data && typeof refreshResult.data.data === "object") {
             const responseData = refreshResult.data as RefreshTokenResponse;
             const { accessToken, user } = responseData.data;
 
-            console.log("New token:", accessToken);
-            console.log("User data:", user);
+            // console.log("New token:", accessToken);
+            // console.log("User data:", user);
 
             // Update Redux store
             api.dispatch(setUser({ user, token: accessToken }));
@@ -165,7 +165,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 
             return result;
         } else {
-            console.log("Refresh failed - logging out");
+            // console.log("Refresh failed - logging out");
             api.dispatch(logOut());
             if (typeof window !== "undefined") window.location.href = "/";
             return { error: { status: 401, data: "Session expired" } };

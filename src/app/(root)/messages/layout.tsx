@@ -1,6 +1,19 @@
-// app/message/layout.tsx
+// import { redirect } from "next/navigation";
+// import { cookies } from "next/headers";
+// import MessageClientLayout from "./MessageClientLayout";
 
-import { redirect } from "next/navigation";
+// export default async function MessageLayout({ children }: { children: React.ReactNode }) {
+//     const cookieStore = await cookies();
+//     const refreshToken = cookieStore.get("refreshToken")?.value;
+
+//     // Server-side redirect if no refresh token
+//     if (!refreshToken) {
+//         redirect("/?redirect=/message");
+//     }
+
+//     return <MessageClientLayout>{children}</MessageClientLayout>;
+// }
+
 import { cookies } from "next/headers";
 import MessageClientLayout from "./MessageClientLayout";
 
@@ -8,10 +21,6 @@ export default async function MessageLayout({ children }: { children: React.Reac
     const cookieStore = await cookies();
     const refreshToken = cookieStore.get("refreshToken")?.value;
 
-    // Server-side redirect if no refresh token
-    if (!refreshToken) {
-        redirect("/?redirect=/message");
-    }
-
-    return <MessageClientLayout>{children}</MessageClientLayout>;
+    // Server-side check for refresh token only
+    return <MessageClientLayout hasRefreshToken={!!refreshToken}>{children}</MessageClientLayout>;
 }

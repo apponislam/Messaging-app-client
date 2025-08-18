@@ -8,7 +8,9 @@ import { useRouter } from "next/navigation";
 import { useGetMyProfileQuery, useGetUserByIdQuery } from "@/redux/features/user/userApi";
 import { useGetMessagesWithUserQuery, useSendMessageMutation } from "@/redux/features/message/messageApi";
 import { connectSocket, disconnectSocket, socket } from "@/app/socket/socket";
-import { getAuthToken } from "@/app/utils/auth";
+// import { getAuthToken } from "@/app/utils/auth";
+import { useSelector } from "react-redux";
+import { currentToken } from "@/redux/features/auth/authSlice";
 
 interface User {
     _id: string;
@@ -53,8 +55,9 @@ export default function MessagePage({ params }: { params: Promise<{ id: string }
     const apiMessages: ApiMessage[] = apiResponse?.data || [];
     const [sendMessage] = useSendMessageMutation();
 
+    const token = useSelector(currentToken);
     useEffect(() => {
-        const token = getAuthToken();
+        // const token = getAuthToken();
 
         const handleConnect = () => {
             // console.log("Socket connected!");
@@ -75,7 +78,7 @@ export default function MessagePage({ params }: { params: Promise<{ id: string }
             socket.off("connect_error", handleConnectError);
             disconnectSocket();
         };
-    }, []);
+    }, [token]);
 
     // 2. Real-time message handling
     useEffect(() => {
