@@ -3,7 +3,6 @@ import { ModeToggle } from "@/components/darkModeToggle";
 import { NotificationBell } from "@/components/notificationCounter";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { UserDropdown } from "@/components/user-profile";
-// import { Bell } from "lucide-react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (

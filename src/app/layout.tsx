@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { Providers } from "@/Providers/Provider";
+import AuthWrapper from "@/Providers/AuthWrapper";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -24,8 +25,10 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body className={`${montserrat.variable} font-m-400 antialiased`}>
                 <Providers>
-                    {children}
-                    <Toaster />
+                    <AuthWrapper>
+                        {children}
+                        <Toaster />
+                    </AuthWrapper>
                 </Providers>
             </body>
         </html>
