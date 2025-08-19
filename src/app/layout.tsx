@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { Providers } from "@/Providers/Provider";
 import AuthWrapper from "@/Providers/AuthWrapper";
+// import { CallPopup } from "@/components/CallPopup";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({
                     <AuthWrapper>
                         {children}
                         <Toaster />
+                        {/* <CallPopup></CallPopup> */}
                     </AuthWrapper>
                 </Providers>
             </body>

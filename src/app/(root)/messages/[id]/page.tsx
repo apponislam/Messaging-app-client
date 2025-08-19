@@ -11,6 +11,9 @@ import { connectSocket, disconnectSocket, socket } from "@/app/socket/socket";
 // import { getAuthToken } from "@/app/utils/auth";
 import { useSelector } from "react-redux";
 import { currentToken } from "@/redux/features/auth/authSlice";
+import { CallButtons } from "@/components/CallButtons";
+import { CallPopup } from "@/components/CallPopup";
+// import { useCallSocket } from "@/hooks/useCallSocket";
 // import { CallButton } from "@/components/callButton";
 
 interface User {
@@ -185,6 +188,8 @@ export default function MessagePage({ params }: { params: Promise<{ id: string }
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
+                    <CallButtons recipientId={id} />
+                    <CallPopup></CallPopup>
                     {/* <CallButton recipientId={id} type="audio" /> */}
                     <Button variant="ghost" size="icon">
                         <MoreVertical className="h-4 w-4" />
